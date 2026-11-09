@@ -50,6 +50,8 @@ namespace PadForge.Common.Input.Peripherals
         LampArrayUnit,
         /// <summary>One TouchSense mouse bound to WinUSB. Rumble only.</summary>
         TouchSenseUnit,
+        /// <summary>One Flydigi Vader 5 Pro on its vendor collection (usage page 0xFFA0), cable or 2.4G dongle.</summary>
+        FlydigiVader5Unit,
     }
 
     /// <summary>Where a backend stands, for the device tabs.</summary>
@@ -85,7 +87,7 @@ namespace PadForge.Common.Input.Peripherals
         public bool Shared => Family switch
         {
             OutputFamily.HidppUnit or OutputFamily.RazerUnit or OutputFamily.SteelSeriesUnit
-                or OutputFamily.LampArrayUnit or OutputFamily.TouchSenseUnit => false,
+                or OutputFamily.LampArrayUnit or OutputFamily.TouchSenseUnit or OutputFamily.FlydigiVader5Unit => false,
             OutputFamily.ChromaCategory or OutputFamily.LedSdkType or OutputFamily.GameSenseColor
                 or OutputFamily.GameSenseTactile or OutputFamily.Interhaptics => true,
             _ => throw new ArgumentOutOfRangeException(nameof(Family)),

@@ -38,6 +38,9 @@ namespace PadForge.Common.Input.Peripherals
             // asks nothing of it.
             Add(backends, OutputFamily.TouchSenseUnit, () => new TouchSenseBackend());
 
+            // Flydigi Vader 5 Pro. Lighting only, through its vendor collection.
+            Add(backends, OutputFamily.FlydigiVader5Unit, () => new FlydigiVader5Backend());
+
             return backends;
         }
 

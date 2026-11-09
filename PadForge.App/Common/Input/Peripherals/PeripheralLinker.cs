@@ -976,15 +976,22 @@ namespace PadForge.Common.Input.Peripherals
             var lampArrays = LampArraysPerContainer(direct);
             foreach (var unit in direct)
             {
-                if (unit.Family != OutputFamily.LampArrayUnit || unit.ContainerId == Guid.Empty || IgnoresRawHost(unit))
+                // A Flydigi Vader 5 Pro is lit through its vendor collection only, never through
+                // its gamepad, mouse or keyboard rows, so it is always its own row and is not
+                // looked for among them.
+                bool flydigi = unit.Family == OutputFamily.FlydigiVader5Unit;
+                if ((unit.Family != OutputFamily.LampArrayUnit && !flydigi) || unit.ContainerId == Guid.Empty || IgnoresRawHost(unit))
                     continue;
                 if (VendorProgramRuns(unit.VendorId, presence)) continue;
                 bool reached = false;
-                foreach (var row in rows)
+                if (!flydigi)
                 {
-                    if (!MatchesLampArray(unit, row, lampArrays)) continue;
-                    reached = true;
-                    break;
+                    foreach (var row in rows)
+                    {
+                        if (!MatchesLampArray(unit, row, lampArrays)) continue;
+                        reached = true;
+                        break;
+                    }
                 }
                 if (!reached) orphans.Add(unit);
             }
